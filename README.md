@@ -29,7 +29,20 @@ In the era of autonomous AI agents, **Agent Skills are executable knowledge**. T
 
 ---
 
-## ⚡ Zero-Setup Execution via `uvx` (Recommended)
+## 🤖 1-Prompt Auto-Install for Your AI Agent
+
+Don't want to configure JSON files manually? Copy and paste this prompt directly into your AI assistant (Google Antigravity, Cursor, Claude, Windsurf, or Roo Code):
+
+```text
+Please configure the SkillsMP MCP server and its Skill Scout rule from https://github.com/Mekanikalistik/skillsmp-mcp for me:
+1. Add "skillsmp" to my MCP server configuration using command "uvx" with args ["--from", "git+https://github.com/Mekanikalistik/skillsmp-mcp.git", "skillsmp-mcp"] and env {"SKILLSMP_API_KEY": "PASTE_KEY_HERE"}.
+2. Download SKILL_SCOUT_PROTOCOL.md from the repo and save it to my agent rules/skills directory so you know how to scout, filter out "word salad", and ask for confirmation before installing skills.
+3. Prompt me to paste my API key from https://skillsmp.com if I haven't already.
+```
+
+---
+
+## ⚡ Zero-Setup Execution via `uvx` (Manual Setup)
 
 No manual git clone, virtual environments, or dependency management required! If you have [uv](https://docs.astral.sh/uv/) installed, you can run the server directly:
 
