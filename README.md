@@ -11,6 +11,24 @@ It enables LLMs (Claude, Gemini, GPT-4, Cursor, Antigravity, Windsurf) to **auto
 
 ---
 
+## 🛡️ Critical Directive: Read & Audit Before You Trigger
+
+> ### ⚠️ *"Knowing nothing about the skill you trigger is worse than blind vibe coding."*
+
+In the era of autonomous AI agents, **Agent Skills are executable knowledge**. They don't merely provide reference documentation—they define system heuristics, tool execution rules, architectural constraints, and operational boundaries for your AI agent.
+
+### Why Blind Skill Execution is Dangerous:
+* **Vibe Coding vs. Skill Poisoning**: If you blindly "vibe code", an LLM might generate a buggy snippet that fails a compiler or test run. But if you blindly inject an unvetted `SKILL.md` into your agent's runtime, you **corrupt the agent's reasoning engine** with outdated APIs, antipatterns, or conflicting directives that taint every subsequent task in your workspace.
+* **The "Word Salad" Hazard**: Many skills published on public marketplaces are generic boilerplate or copied API signatures. Injecting these wastes valuable context window tokens and degrades reasoning performance without offering actionable runbooks.
+* **Permission & Action Exposure**: Real agent skills often define terminal execution patterns, file modifications, or infrastructure interactions. Triggering a skill without knowing what it does compromises reproducibility and project safety.
+
+### 📋 The 3-Point Audit Checklist Before Adopting Any Skill:
+1. **Inspect the `SKILL.md`**: Always review the prompt triggers, step-by-step instructions, and expected tool calls before running it.
+2. **Filter Out Generic Boilerplate**: If a skill just tells the model things standard foundation models already know (like basic syntax), discard it. Prioritize skills with novel runbooks, battle-tested workflows, or strict compliance steps.
+3. **Scope Responsibly**: Prefer isolated, project-level scoping (`.agents/skills/<name>/`) instead of universally polluting your global agent configuration.
+
+---
+
 ## ⚡ Zero-Setup Execution via `uvx` (Recommended)
 
 No manual git clone, virtual environments, or dependency management required! If you have [uv](https://docs.astral.sh/uv/) installed, you can run the server directly:
