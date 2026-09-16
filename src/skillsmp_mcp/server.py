@@ -1,6 +1,7 @@
 import asyncio
 import json
 import os
+import re
 import sys
 import urllib.error
 import urllib.parse
@@ -138,12 +139,41 @@ async def fetch_skillsmp_skill(githubUrl: str) -> str:
     if not githubUrl or not githubUrl.startswith("https://github.com/"):
         return json.dumps({"success": False, "error": "Invalid githubUrl"})
 
-    raw_url = (
-        githubUrl.replace("https://github.com/", "https://raw.githubusercontent.com/").replace(
-            "/tree/", "/"
+    # Try to resolve branch/ref to an exact commit SHA for strict provenance
+    resolved_sha = None
+    match = re.match(r"https://github\.com/([^/]+)/([^/]+)/tree/([^/]+)/(.*)", githubUrl)
+    
+    if match:
+        owner, repo, ref, path = match.groups()
+        api_url = f"https://api.github.com/repos/{owner}/{repo}/commits/{ref}"
+        req_api = urllib.request.Request(
+            api_url,
+            headers={
+                "User-Agent": "skillsmp-mcp/0.1.0",
+                "Accept": "application/vnd.github.v3+json"
+            },
         )
-        + "/SKILL.md"
-    )
+        try:
+            with urllib.request.urlopen(req_api, timeout=10) as response:
+                commit_data = json.loads(response.read().decode("utf-8"))
+                if "sha" in commit_data:
+                    resolved_sha = commit_data["sha"]
+        except Exception:
+            # Fallback to ref if API fails (rate limit, network issue, etc.)
+            pass
+
+    if resolved_sha and match:
+        owner, repo, _, path = match.groups()
+        raw_url = f"https://raw.githubusercontent.com/{owner}/{repo}/{resolved_sha}/{path}/SKILL.md"
+        provenance_header = f"<!-- SkillsMP Provenance: Fetched from exact commit SHA {resolved_sha} -->\n"
+    else:
+        raw_url = (
+            githubUrl.replace("https://github.com/", "https://raw.githubusercontent.com/").replace(
+                "/tree/", "/"
+            )
+            + "/SKILL.md"
+        )
+        provenance_header = "<!-- SkillsMP Provenance: Branch-level fetch (SHA resolution failed or URL malformed) -->\n"
 
     req = urllib.request.Request(
         raw_url,
@@ -155,7 +185,8 @@ async def fetch_skillsmp_skill(githubUrl: str) -> str:
 
         def fetch_sync():
             with urllib.request.urlopen(req, timeout=15) as response:
-                return response.read().decode("utf-8")
+                content = response.read().decode("utf-8")
+                return provenance_header + content
 
         return await loop.run_in_executor(None, fetch_sync)
     except urllib.error.HTTPError as e:
