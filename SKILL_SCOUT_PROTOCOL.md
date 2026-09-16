@@ -10,11 +10,11 @@ Follow this protocol to ensure you find the most useful skills without bloating 
 
 ## The 4-Step Smart Workflow
 
-### 1. Autonomous Keyword Generation
-- Analyze the user's high-level project description and tech stack.
-- You must autonomously deduce the technical direction. Generate highly specific, long-tail keywords (e.g., `"Next.js 14 App Router caching patterns"` or `"Supabase RLS strict policies"`). Do not use generic terms.
-- Run `search_skillsmp` using these smart keywords.
-- *Crucial:* Cast a wide net for *relevant* skills. Do not assume you already know a skill just by its title. You cannot judge a skill before you read it.
+### 1. Autonomous Keyword Generation & Pillar Mapping
+- **Analyze & Map Pillars:** Read the user's project idea, blueprint, or architectural plan. You must break the project down into its **core architectural pillars** (e.g., Frontend/UI, Backend/API, Database/ORM, Authentication/Security, Infrastructure/Deployment).
+- **Generate Comprehensive Keywords:** You must autonomously deduce the technical direction. For *each* core pillar, generate 1 to 2 highly specific, long-tail keywords (e.g., `"Next.js 14 App Router caching patterns"` or `"Supabase RLS strict policies"`). Do not use generic terms.
+- **Search:** Run `search_skillsmp` using all generated keywords. You should typically execute 5 to 10 searches to ensure full coverage of the project's architecture.
+- *Crucial:* Cast a wide net for *relevant* skills. Do not stop searching until every major technical component has been scouted. You cannot judge a skill before you read it.
 
 ### 2. Fetch and Evaluate
 - For the most promising results returned by the search, use `fetch_skillsmp_skill(githubUrl)` to read their actual `SKILL.md` content.
