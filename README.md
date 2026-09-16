@@ -213,14 +213,14 @@ Retrieves the raw markdown instructions (`SKILL.md`) for any discovered skill.
 To help AI assistants use these tools effectively without bloating prompt context, we include a battle-tested rule: [SKILL_SCOUT_PROTOCOL.md](SKILL_SCOUT_PROTOCOL.md).
 
 ### When should you trigger the Scout?
-**Do not trigger the scout randomly while coding.** The ideal time to trigger the skill scout is during the **planning and brainstorming phase** before writing code. 
+**Do not trigger the scout randomly while coding.** The ideal time to trigger the skill scout is in a **fresh chat session with a large context window model**, during the initial planning and brainstorming phase before any coding begins or issues are introduced.
 
 ### The Ideal Workflow
-1. **Brainstorming & Architecture**: Explain what you want to build (e.g., "I want to build a Next.js app with Supabase authentication").
-2. **Triggering the Scout**: Tell your agent: *"Scout for skills related to Supabase RLS and Next.js App Router."*
+1. **Brainstorming & Architecture**: You explain the high-level project goals (e.g., "I want to build a SaaS application for scheduling").
+2. **Autonomous Scouting**: Tell your agent: *"Scout for the necessary skills for this project."* The agent will analyze your goals, generate specific keywords for the technical direction it plans to take, and search the marketplace.
 3. **The "Word Salad" Filter**: The agent fetches the skills and evaluates them against its own knowledge. It rejects generic boilerplate and only keeps highly actionable, novel runbooks.
-4. **Saving & Blueprints**: The agent asks you if the skill looks good. If approved, it saves `SKILL.md` to your local `.agents/skills` folder. The agent then writes your project blueprint using those exact runbooks.
-5. **Execution**: You approve the blueprint, and the agent writes the code flawlessly because its context is highly specific and curated.
+4. **Justification & Saving**: The agent presents the shortlisted skills to you and justifies *why* each is needed for the project. If approved, it saves them to your local `.agents/skills` folder.
+5. **Execution**: The agent writes your project blueprint using those exact runbooks, anchoring the skills to the project perfectly before development starts.
 
 ---
 
